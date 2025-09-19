@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Griding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6E293A, #1E3C72);
+            color: #fff;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 60%;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        input:focus {
+            border: 2px solid #fff;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            background: #FF6F61;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff3c2e;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Reverse Griding</h1>
+    <div class="container">
+        <div>
+            <form>
+                <label for="username">UserName</label>
+                <input type="text" id="username" placeholder="Enter Your Name">
+                <button id="submitBtn">Submit</button>
+            </form>
+        </div>
+        <div class="Table" style="display: grid; grid-template-columns: 1fr 1fr 1fr ; padding: 20px;">
+            <div id="arrayName" style="display:grid; grid-template-columns: 1fr; justify-content: center;">
+                <!-- <span id="arrayName"></span> -->
+            </div>
+            <div id="ReverseName" style="display:grid; grid-template-columns: 1fr 1fr; justify-content: center;">
+                
+
+            </div>
+            <div id="correctName" style="display:grid; grid-template-columns: 1fr 1fr; justify-content: center;">
+                
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        let arr = [];
+        let arr2 = []
+        let arr3 = []
+
+        let submitBtn = document.getElementById("submitBtn");
+        let usernameInput = document.getElementById("username");
+        let arrayName = document.getElementById('arrayName')
+        let reversName = document.getElementById('ReverseName')
+        let correctName = document.getElementById('correctName')
+        let revBtn = document.querySelector('#rev-btn')
+        
+
+        let i = 0
+        submitBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            let inputValue = usernameInput.value;
+
+            if (!arr.includes(inputValue)) {
+                arr.push(inputValue);
+
+
+                let spanElement = document.createElement('span');
+                spanElement.textContent = inputValue;
+                arrayName.append(spanElement);
+
+
+                let reverseColumn = document.createElement('span');
+                reverseColumn.textContent = inputValue;
+                document.getElementById('ReverseName').append(reverseColumn);
+
+
+                arr2.push(reverseColumn);
+
+                let reversButton = document.createElement("button");
+                reversButton.textContent = "Reverse";
+                reversButton.style.padding = "5px";
+                reversButton.style.backgroundColor = "indigo";
+                reversButton.style.color = "white";
+                reversButton.setAttribute("indexNo", i);
+                document.getElementById('ReverseName').append(reversButton);
+                i++;
+            }
+        });
+        let iterator = 0
+        document.getElementById('ReverseName').addEventListener("click", (e) => {
+
+            if (e.target.tagName === "BUTTON") {
+                let index = e.target.getAttribute("indexNo");
+                let spanEl = arr2[index];
+                spanEl.textContent = spanEl.textContent.split("").reverse().join("");
+                if (!arr3.includes(spanEl.textContent)) {
+                    arr3.push(spanEl.textContent)
+                    console.log(arr3)
+
+
+                    // 3RD COLUMN CREATION 
+                    let thirdElement = document.createElement('span')
+                    // thirdElement.id = 'correctName'
+                    thirdElement.textContent = arr3[iterator]
+                    document.getElementById('correctName').append(thirdElement)
+                    let true_btn = document.createElement('button')
+                    true_btn.id = 'true-btn'
+                    true_btn.setAttribute("IndexNO", iterator)
+
+                    true_btn.textContent = 'Correct'
+                    document.getElementById('correctName').append(true_btn)
+                    iterator += 1
+                    true_btn.addEventListener("click", (e) => {
+                        if (e.target.tagName === 'BUTTON') {
+                            let IndexOfCorrectElement = e.target.getAttribute("IndexNO")
+                            let correctElement = arr3[IndexOfCorrectElement]
+
+                            console.log(correctElement)
+                            console.log(typeof correctElement)
+                            console.log(arr3[IndexOfCorrectElement])
+                            correctElement = correctElement.split("").reverse().join("")
+                            arr3.splice(IndexOfCorrectElement, 1, correctElement)
+                            e.target.previousSibling.textContent = arr3.splice(IndexOfCorrectElement, 1, correctElement)
+                            console.log(arr3)
+
+                        }
+
+                    })
+                }
+
+
+                //     let thirdElement=document.createElement('span')
+                //     thirdElement.textContent=arr3
+                //   console.log(thirdElement.textContent)
+
+            }
+        });
+    </script>
+</body>
+
+</html>
