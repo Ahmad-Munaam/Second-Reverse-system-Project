@@ -19,4 +19,4 @@ The app allows users to input their name (or any text), and it displays the resu
 
 ---
 
-## 📂 Project Structure
+
